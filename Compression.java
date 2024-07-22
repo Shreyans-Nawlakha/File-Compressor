@@ -7,39 +7,44 @@ import java.util.zip.GZIPOutputStream;
 public class Compression {
 
     public static void main(String[] args) {
+        // HashMap to store different versions of the string data
+        HashMap<String, String> dataMap = new HashMap<>();
 
-        HashMap <String,String > mp = new HashMap<>();
+        // File path to read
+        String filePath = "D:\\Stoxbox Service\\java examples\\random_file.txt";
 
-        String filePath ="D:\\Stoxbox Service\\java examples\\random_file.txt";
+        // Read the file contents into a string
         String inputString = readFileToString(filePath);
-        mp.put("inputString", inputString);
+        dataMap.put("inputString", inputString); // Store input string in map
 
         try {
-            // Compress the input file data
+            // Compress the input string
             byte[] compressedData = compressString(inputString);
-            String compressedString = new String(compressedData, "UTF-8"); // Convert byte[] to String
-            mp.put("compressedString", compressedString);
-
-            // Display sizes
-            // System.out.println("Original size: " + inputString.length());
-            // System.out.println("Compressed size: " + compressedString.length());
+            String compressedString = new String(compressedData, "UTF-8"); // Convert compressed byte[] to String
+            dataMap.put("compressedString", compressedString); // Store compressed string in map
 
             // Decompress the compressed data
             String decompressedString = decompressString(compressedData);
-            mp.put("decompressedString", decompressedString);
-            // System.out.println("Decompressed String: " + decompressedString.length());
+            dataMap.put("decompressedString", decompressedString); // Store decompressed string in map
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println(mp.size());
+        // Print sizes of each string version
+        System.out.println("Number of entries in dataMap: " + dataMap.size());
         System.out.println("---------------------------------------------------------------------------------");
-        System.out.println("Input String size : " + (mp.get("inputString").length()/1024));
-        System.out.println("Compressed String size : " + (mp.get("compressedString").length()/1024));
-        System.out.println("Decompressed String size : " + (mp.get("decompressedString").length()/1024));
+        System.out.println("Input String size (KB): " + (dataMap.get("inputString").length() / 1024));
+        System.out.println("Compressed String size (KB): " + (dataMap.get("compressedString").length() / 1024));
+        System.out.println("Decompressed String size (KB): " + (dataMap.get("decompressedString").length() / 1024));
     }
 
+    /**
+     * Reads a file and returns its contents as a string.
+     *
+     * @param filePath Path to the file to be read
+     * @return Contents of the file as a string
+     */
     private static String readFileToString(String filePath) {
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -53,6 +58,13 @@ public class Compression {
         return contentBuilder.toString();
     }
 
+    /**
+     * Compresses a string using GZIP.
+     *
+     * @param inputString String to compress
+     * @return Compressed byte array
+     * @throws IOException If an I/O error occurs
+     */
     private static byte[] compressString(String inputString) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(outputStream)) {
@@ -61,7 +73,13 @@ public class Compression {
         return outputStream.toByteArray();
     }
 
-
+    /**
+     * Decompresses a byte array using GZIP.
+     *
+     * @param compressedData Compressed byte array
+     * @return Decompressed string
+     * @throws IOException If an I/O error occurs
+     */
     private static String decompressString(byte[] compressedData) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(compressedData);
