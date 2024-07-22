@@ -37,6 +37,9 @@ Dummy text file created successfully: dummy_file.txt
 File size: 15728640 bytes
 File size in KB: 15360.0
 ```
+
+
+
 # Compression Java Program
 
 This Java program (`Compression.java`) demonstrates file compression and decompression using GZIP.
