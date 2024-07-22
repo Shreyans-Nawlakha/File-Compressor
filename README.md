@@ -27,18 +27,13 @@ To run the program:
 - Run the compiled program: `java CreateDummy`
 
 ## Output
-
-Upon successful execution, the program will:
-- Print messages indicating the successful creation of the file and its size in bytes and kilobytes.
-
-### Example Output:
 ```
 Dummy text file created successfully: dummy_file.txt
 File size: 15728640 bytes
 File size in KB: 15360.0
 ```
-
-
+#
+#
 
 # Compression Java Program
 
